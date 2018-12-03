@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+  li {
+    list-style: none;
+    padding: 10px;
+    border-bottom: 1px solid #000;
+  }
+  </style>
+</head>
+<body>
+  <ul>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+    <li>6</li>
+    <li>7</li>
+    <li>8</li>
+    <li>9</li>
+    <li>10</li>
+  </ul>
+  <script>
+  var aLi = document.getElementsByTagName('li');
+  for (var i = 0; i < aLi.length; i++) {
+    var dragEle = null;
+    aLi[i].index = i;
+    aLi[i].draggable = true;
+    aLi[i].addEventListener('dragstart', function () {
+      this.style.backgroundColor = '#f8f8f8';
+      dragEle = this;
+    })
+
+    aLi[i].addEventListener('dragenter', function () {
+      if (dragEle !== this) {
+        if (dragEle.index < this.index) {
+          this.parentNode.insertBefore(this, dragEle);
+        } else {
+          this.parentNode.insertBefore(dragEle, this);
+        }
+        var tempIndex = this.index;
+        this.index = dragEle.index;
+        dragEle.index = tempIndex;
+      }
+    })
+
+    aLi[i].addEventListener('dragend', function () {
+      this.style.backgroundColor = '';
+      dragEle = null;
+    })
+  }
+  </script>
+</body>
+</html>
