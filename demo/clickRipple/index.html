@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    @keyframes ripple-ani {
+      100% {
+        transform: scale(2);
+        opacity: 0;
+      }
+    }
+
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      transform: scale(0);
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    .ripple-ani {
+      animation: ripple-ani 0.5s ease-out;
+    }
+
+    .btn {
+      background: #3367d6;
+      outline: none;
+      padding: 10px;
+      color: #fff;
+      border-style: none;
+      vertical-align: top;
+    }
+
+    .img-box {
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body>
+  <button class="btn">button</button>
+  <div class="img-box">
+    <img src="https://avatars0.githubusercontent.com/u/12548093?s=88&v=4">
+  </div>
+  <script>
+    function Ripple(target) {
+      this.targets = document.querySelectorAll(target);
+      this.bindEvent();
+    }
+
+    Ripple.prototype.bindEvent = function () {
+      var _this = this;
+      for (var i = 0; i < this.targets.length; i++) {
+        this.targets[i].addEventListener('click', function (e) {
+          this.style.cssText = `overflow: hidden; position: relative`;
+          _this.createRipple(this, e);
+        })
+      }
+    }
+    Ripple.prototype.createRipple = function (dom, mouse) {
+      var ripple = dom.querySelector('.ripple');
+      var maxSize = Math.max(dom.clientHeight, dom.clientWidth);
+      if (!ripple) {
+        ripple = document.createElement('span');
+        ripple.classList.add('ripple');
+        dom.appendChild(ripple);
+      }
+      ripple.classList.remove('ripple-ani');
+      ripple.style.cssText = `width:${maxSize}px; height:${maxSize}px; top:${mouse.offsetY - maxSize / 2}px; left:${mouse.offsetX - maxSize / 2}px;`;
+      ripple.classList.add('ripple-ani');
+    }
+    new Ripple('button')
+    new Ripple('.img-box')
+  </script>
+</body>
+
+</html>
